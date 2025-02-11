@@ -4,9 +4,9 @@
 sudo ip link set can0 up type can bitrate 500000
 
 if [ $? -eq 0 ]; then
-    echo "CAN setup success"
+    echo "can0 setup success"
     ip link show can0
 else
-    echo "CAN setup fail"
+    echo "can0 setup fail"
     exit 1
 fi
