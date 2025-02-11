@@ -13,7 +13,7 @@ class CANManager:
         self.running = True
         
         self.receiver_thread = threading.Thread(target=self._receive_loop, daemon=True)
-        # self.sender_thread = threading.Thread(target=self._send, daemon=True)
+        # self.sender_thread = threading.Thread(target=self.send_msg, daemon=True)
     
     def start(self):
         self.receiver_thread.start()
@@ -41,10 +41,10 @@ class CANManager:
             else:
                 print(f"Received non-status message: ID={hex(msg.arbitration_id)}")
         
-    def _send(self, data: list[int]):
+    def send_msg(self, msg_id: int, data: list[int]):
         control_data = self.can_method.create_vehicle_control_data(data)
         data_to_send = self.can_method.encode_vehicle_control_Message(control_data)
-        self.can_bus.send_message(VEHICLE_CONTROL_ID, data_to_send)
+        self.can_bus.send_message(msg_id, data_to_send)
         
     def get_vehicle_status(self):
         return self.vehicle_status.get_status()

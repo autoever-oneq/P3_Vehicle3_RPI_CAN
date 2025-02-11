@@ -22,7 +22,7 @@ def main():
             else:
                 data = [-30, -3000, 3511]
             
-            can_manager._send(data)
+            can_manager.send_msg(VEHICLE_CONTROL_ID,data)
             
     except KeyboardInterrupt:
         print("Stopping CANManager...")
