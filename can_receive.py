@@ -16,8 +16,8 @@ try:
             msg_data = VehicleStatusMsg.from_buffer_copy(msg.data)
             
             print(msg_data)
-            print(f"Motor1 RPM (raw): {msg_data.motor1_cur_rpm / 100.0}")
-            print(f"Motor2 RPM (raw): {msg_data.motor2_cur_rpm / 100.0}")
+            
+            
         else:
             print("not receive")
         

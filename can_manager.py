@@ -32,16 +32,15 @@ class CANManager:
                 # print(f"Received CAN msg: ID={hex(msg.arbitration_id)}, data={msg.data}")
                 try:
                     msg_data = VehicleStatusMsg.from_buffer_copy(msg.data)
-                    motor1_rpm = msg_data.motor1_cur_rpm / 100.0
-                    motor2_rpm = msg_data.motor2_cur_rpm / 100.0
                     
-                    self.vehicle_status.update(motor1_rpm, motor2_rpm)
+                    self.vehicle_status.update(msg_data.motor_cur_rpm)
                 except Exception as e:
                     print("Error parsing VehicleStatusMsg:", e)
             else:
                 print(f"Received non-status message: ID={hex(msg.arbitration_id)}")
         
-    def send_msg(self, msg_id: int, data: list[int]):
+    def send_msg(self, msg_id: int, data: list):
+        print("- CANManager : send_msg")
         control_data = self.can_method.create_vehicle_control_data(data)
         data_to_send = self.can_method.encode_vehicle_control_Message(control_data)
         self.can_bus.send_message(msg_id, data_to_send)

@@ -15,12 +15,7 @@ def main():
             print("Current Vehicle Status:", current_status)
             
             user_input = input("Send control message? (y/n): ")
-            if user_input == '1':
-                data = [30, 3000, 3511]
-            elif user_input == '2':
-                data = [-30, 3000, 3511]
-            else:
-                data = [-30, -3000, 3511]
+            data = [float(x) if '.' in x else int(x) for x in user_input.split()]
             
             can_manager.send_msg(VEHICLE_CONTROL_ID,data)
             
