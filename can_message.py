@@ -18,18 +18,21 @@ class LogMsg(Structure):
         return "\n".join(field_strings)
         
     
+# class VehicleStatusMsg(LogMsg):
+#     _fields_ = [
+#         ("motor1_cur_rpm", c_uint16, 16),  
+#         ("motor2_cur_rpm", c_uint16, 16) 
+#     ]
+
 class VehicleStatusMsg(LogMsg):
     _fields_ = [
-        ("motor1_cur_rpm", c_uint16, 16),  
-        ("motor2_cur_rpm", c_uint16, 16) 
+        ("motor_cur_rpm", c_float)  
     ]
 
 class VehicleControlMsg(LogMsg):
     _fields_ = [
-        ("steering_angle_delta", c_int64, 7),  
-        ("motor1_rpm_delta",     c_int64, 16),   
-        ("motor2_rpm_delta",     c_int64, 16)    
-
+        ("motor_rpm", c_float),
+        ("steering_angle_delta", c_int32, 7)
     ]
     
 

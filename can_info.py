@@ -2,22 +2,28 @@ from can_message import *
 from dataclasses import dataclass
 
 @dataclass
-class VehicleControlValues:
+class VehicleControlData:
+    motor_rpm: float
     steering_angle_delta: int
-    motor1_rpm_delta: int
-    motor2_rpm_delta: int
 
 class CANMethod:
     
     # model에서 나온 값들 변경해서 전달..?
-    def make_vehicle_control_values(self):
-        return VehicleControlValues(steering_angle_delta=-30, motor1_rpm_delta=-3000, motor2_rpm_delta=-3511)
+    def create_vehicle_control_data(self, data_list: list) -> VehicleControlData:
+        if len(data_list) != 2:
+            raise ValueError("len 2")
+        
+        print("- CANMethod : create_vehicle_control_data")
+        
+        return VehicleControlData(motor_rpm=data_list[0], 
+                                  steering_angle_delta=data_list[1], 
+                                )
     
-    def parse_vehicle_control_Message(self, values: VehicleControlValues):
+    def encode_vehicle_control_Message(self, values: VehicleControlData):
+        print("- CANMethod : encode_vehicle_control_Message")
         msg_struct = VehicleControlMsg()
         msg_struct.steering_angle_delta = values.steering_angle_delta & 0x7F  
-        msg_struct.motor1_rpm_delta = values.motor1_rpm_delta & 0xFFFF
-        msg_struct.motor2_rpm_delta = values.motor2_rpm_delta & 0xFFFF
+        msg_struct.motor_rpm = values.motor_rpm
         return bytes(msg_struct)
     
 

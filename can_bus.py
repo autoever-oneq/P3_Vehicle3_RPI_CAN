@@ -30,6 +30,7 @@ class CANBus:
                 data=data,
                 is_extended_id=False
             )
+            print("- CANBus : send_message >> ", message)
             self.bus.send(message)
             print(f"Message sent - ID: 0x{msg_id:X}")
         except can.CanError as e:
